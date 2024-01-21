@@ -209,10 +209,23 @@ if save_to_drive:
 
 json_path = 'https://models.rivershavewings.workers.dev/config_laion_text_cond_latent_upscaler_2.json'
 ckpt_path = 'https://models.rivershavewings.workers.dev/laion_text_cond_latent_upscaler_2_1_00470000_slim.pth'
+json_name = json_path.split('/')[-1]
+ckpt_name = ckpt_path.split('/')[-1]
+
+if not os.path.exits('resources'):
+	os.mkdir('resources')
+
+cmd1 = "wget {}".format(json_path)
+cmd2 = "mv {} {}".format(json_name, 'resources/' + json_name)
+cmd3 = "wget {}".format(ckpt_path)
+cmd4 = "mv {} {}".format(ckpt_name, 'resources/' + ckpt_name)
+os.system(cmd1)
+os.system(cmd2)
+os.system(cmd3)
+os.system(cmd4)
 
 #model_up = make_upscaler_model(fetch(json_path), fetch(ckpt_path))
-model_up = make_upscaler_model('resources/' + json_path.split('/')[-1], 
-								'resources/' + ckpt_path.split('/')[-1])
+model_up = make_upscaler_model('resources/' + json_name, 'resources/' + ckpt_name)
 
 # sd_model_path = download_from_huggingface("CompVis/stable-diffusion-v-1-4-original", "sd-v1-4.ckpt")
 vae_840k_model_path = download_from_huggingface("stabilityai/sd-vae-ft-mse-original", 
